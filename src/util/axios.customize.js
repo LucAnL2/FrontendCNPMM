@@ -1,18 +1,17 @@
 import axios from "axios";
-
-// Tạo instance với baseURL từ biến môi trường
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
+// Alter defaults after instance has been created
+// instance.defaults.headers.common["Authorization"] = AUTH_TOKEN;
 // Add a request interceptor
 instance.interceptors.request.use(
   function (config) {
-    // Gắn token vào header nếu có
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    // Do something before request is sent
+    config.headers.Authorization = `Bearer ${localStorage.getItem(
+      "access_token"
+    )}`;
     return config;
   },
   function (error) {
@@ -24,15 +23,18 @@ instance.interceptors.request.use(
 // Add a response interceptor
 instance.interceptors.response.use(
   function (response) {
-    // Trả về dữ liệu khi thành công
-    if (response && response.data) return response.data;
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    if (response && response.data) {
+      return response.data;
+    }
     return response;
   },
   function (error) {
-    // Xử lý lỗi trả về từ server
-    if (error?.response?.data) return error.response.data;
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    if (error?.response?.data) return error?.response?.data;
     return Promise.reject(error);
   }
 );
-
 export default instance;

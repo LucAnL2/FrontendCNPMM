@@ -1,8 +1,7 @@
-import { notification, Table } from "antd";
+import { message, notification, Table } from "antd";
 import { useEffect, useState } from "react";
 import { getUserApi } from "../util/api";
-
-const UserPage = () => {
+const UsersPage = () => {
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
@@ -27,12 +26,12 @@ const UserPage = () => {
       dataIndex: "_id",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-    },
-    {
       title: "Name",
       dataIndex: "name",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
     },
     {
       title: "Role",
@@ -42,14 +41,9 @@ const UserPage = () => {
 
   return (
     <div style={{ padding: 30 }}>
-      <Table
-        bordered
-        dataSource={dataSource}
-        columns={columns}
-        rowKey={"_id"}
-      />
+      {" "}
+      <Table bordered dataSource={dataSource} columns={columns} />;
     </div>
   );
 };
-
-export default UserPage;
+export default UsersPage;
