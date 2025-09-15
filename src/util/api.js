@@ -31,14 +31,34 @@ const getAllCateApi = async () => {
   return instance.get(URL_API);
 };
 
-// util/api.js
-const getProductsByCateApi = async (cateId, page = 1, limit = 2) => {
-  const URL_API = `/v1/api/product/${cateId}?page=${page}&limit=${limit}`;
+// lấy sản phẩm theo category
+const getProductsByCateApi = (
+  cateId,
+  page = 1,
+  limit = 2,
+  search = "",
+  minPrice,
+  maxPrice
+) => {
+  let URL_API = `/v1/api/product/${cateId}?page=${page}&limit=${limit}`;
+  if (search) URL_API += `&search=${encodeURIComponent(search)}`;
+  if (minPrice !== undefined) URL_API += `&minPrice=${minPrice}`;
+  if (maxPrice !== undefined) URL_API += `&maxPrice=${maxPrice}`;
   return instance.get(URL_API);
 };
 
-const getAllProducts = async (page = 1, limit = 2) => {
-  const URL_API = `/v1/api/product?page=${page}&limit=${limit}`;
+// lấy tất cả sản phẩm
+const getAllProducts = (
+  page = 1,
+  limit = 2,
+  search = "",
+  minPrice,
+  maxPrice
+) => {
+  let URL_API = `/v1/api/product?page=${page}&limit=${limit}`;
+  if (search) URL_API += `&search=${encodeURIComponent(search)}`;
+  if (minPrice !== undefined) URL_API += `&minPrice=${minPrice}`;
+  if (maxPrice !== undefined) URL_API += `&maxPrice=${maxPrice}`;
   return instance.get(URL_API);
 };
 
